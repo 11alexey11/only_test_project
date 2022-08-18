@@ -33,7 +33,8 @@ module.exports = {
     output: {
         filename: filename('js'),
         path: path.resolve(__dirname, 'build'),
-        libraryExport: 'default'
+        libraryExport: 'default',
+        publicPath: '/'
     },
     optimization: optimization(),
     performance: {
