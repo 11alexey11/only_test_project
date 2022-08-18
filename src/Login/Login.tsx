@@ -1,5 +1,8 @@
 import React from 'react';
+import { useForm } from "react-hook-form";
 import styled from 'styled-components';
+
+import { LoginService } from '../api/LoginService';
 
 const LoginContainer = styled.div`
     display: flex;
@@ -37,6 +40,12 @@ const Input = styled.input`
     }
 `;
 
+const Error = styled.span`
+    font-size: 0.875rem;
+    line-height: 1rem;
+    color: #E26F6F;
+`;
+
 const CheckBox = styled.input`
     width: 1.25rem;
     height: 1.25rem;
@@ -58,16 +67,35 @@ const SubmitButton = styled(Input)`
     color: #FFFFFF;
 `;
 
+type FormData = {
+    email: string,
+    password: string,
+    remember: string
+};
+
 const Login = () => {
+    const { register, handleSubmit, formState: { errors }  } = useForm<FormData>();
+
+    const onSubmit = handleSubmit(async (formData) => {
+        const response = await LoginService.post(formData);
+        console.log(response);
+    });
+
     return (
         <LoginContainer>
-            <Form>
+            <Form onSubmit={onSubmit}>
                 <Label htmlFor="email" >Логин</Label>
-                <Input id="email" type="email" name="email" />
+                <Input id="email" type="email" {...register('email', { required: true })} />
+                {
+                    errors.email && <Error>Обязательное поле</Error>
+                }
                 <Label htmlFor="password" >Пароль</Label>
-                <Input id="password" type="password" name="password" />
+                <Input id="password" type="password" {...register('password', { required: true })} />
+                {
+                    errors.password && <Error>Обязательное поле</Error>
+                }
                 <Label htmlFor="remember">
-                    <CheckBox id="remember" type="checkbox" name="remember"/>
+                    <CheckBox id="remember" type="checkbox" {...register('remember')} />
                     Запомнить пароль
                 </Label>
                 <SubmitButton type="submit" />
