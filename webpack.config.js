@@ -36,6 +36,7 @@ module.exports = {
         libraryExport: 'default',
         publicPath: '/'
     },
+    mode: 'development',
     optimization: optimization(),
     performance: {
         hints: false,
@@ -43,6 +44,8 @@ module.exports = {
         maxAssetSize: 512000
     },
     devServer: {
+        historyApiFallback: true,
+        static: './index.html',
         port: 5000,
         hot: isDev
     },
