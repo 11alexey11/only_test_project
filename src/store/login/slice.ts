@@ -24,6 +24,11 @@ export const counterSlice = createSlice({
         },
         setIsFetching: (state, action: PayloadAction<boolean>) => {
             state.isFetching = action.payload;
+        },
+        exitFromLogin: (state) => {
+            state.isError = false;
+            state.email = '';
+            state.isFetching = false;
         }
     }
 });

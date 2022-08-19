@@ -3,5 +3,6 @@ import { counterSlice } from './slice';
 export const {
     setEmail,
     setIsError,
-    setIsFetching
+    setIsFetching,
+    exitFromLogin
 } = counterSlice.actions;

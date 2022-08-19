@@ -161,7 +161,7 @@ const Login = () => {
                     <CheckBox id="remember" type="checkbox" {...register('remember')} />
                     Запомнить пароль
                 </Label>
-                <SubmitButton disabled={isFetching} type="submit" />
+                <SubmitButton disabled={isFetching} type="submit" value="Войти" />
             </Form>
         </LoginContainer>
     );

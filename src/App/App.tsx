@@ -6,6 +6,7 @@ import { createGlobalStyle } from 'styled-components';
 import { store } from '../store';
 import { Header } from '../Header';
 import { Login } from '../Login';
+import { Profile } from '../Profile';
  
 const GlobalStyle = createGlobalStyle`
     * {
@@ -35,6 +36,7 @@ const App = () => {
             <Router>
                 <Routes>
                     <Route path='/login' element={<Login />} />
+                    <Route path='/profile' element={<Profile />} />
                     <Route path='/' element={<Navigate replace to='/login' />} />
                 </Routes>
             </Router>
