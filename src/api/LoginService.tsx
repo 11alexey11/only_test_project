@@ -19,7 +19,7 @@ export class LoginService {
 
         if (!isExistLogin) {
             return new Promise((resolve) => {
-                resolve({ code: 404, message: 'Failure'  });
+                resolve({ code: 404, message: 'Failure' });
             });
         }
         
