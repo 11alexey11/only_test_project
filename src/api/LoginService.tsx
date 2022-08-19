@@ -2,6 +2,11 @@ import { HttpService } from './HttpService';
 
 const httpService = new HttpService();
 
+interface IResponse {
+    code: number
+    message: string
+}
+
 type FormData = {
     email: string,
     password: string,
@@ -9,7 +14,7 @@ type FormData = {
 };
 
 export class LoginService {
-    static async post(formData: FormData) {
+    static async post(formData: FormData): Promise<IResponse> {
         const data = await httpService.post();
         const loginData = {
             email: formData.email,

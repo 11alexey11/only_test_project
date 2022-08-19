@@ -1,7 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Provider } from 'react-redux'
 import { createGlobalStyle } from 'styled-components';
 
+import { store } from '../store';
 import { Header } from '../Header';
 import { Login } from '../Login';
  
@@ -27,7 +29,7 @@ const GlobalStyle = createGlobalStyle`
 
 const App = () => {
     return (
-        <>
+        <Provider store={store}>
             <GlobalStyle />
             <Header />
             <Router>
@@ -36,7 +38,7 @@ const App = () => {
                     <Route path='/' element={<Navigate replace to='/login' />} />
                 </Routes>
             </Router>
-        </>
+        </Provider>
     )
 };
 

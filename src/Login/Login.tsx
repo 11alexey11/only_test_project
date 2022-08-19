@@ -1,8 +1,12 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { LoginService } from '../api/LoginService';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
+import { setEmail, setIsError, setIsFetching } from '../store/login/actions';
+import { getEmailSelector, getIsErrorSelector, getIsFetchingSelector } from '../store/login/selectors';
 
 const LoginContainer = styled.div`
     display: flex;
@@ -38,12 +42,46 @@ const Input = styled.input`
     &:hover {
         cursor: pointer;
     }
+
+    &:disabled {
+        background-color: #99A9FF;
+    }
+
+    // &:focus {
+    //     outline: none;
+    //     border: 1px solid #E26F6F;
+    // }
 `;
 
-const Error = styled.span`
+const ErrorSpan = styled.span`
     font-size: 0.875rem;
     line-height: 1rem;
     color: #E26F6F;
+`;
+
+const ErrorDiv = styled.div`
+    display: flex;
+    align-items: center;
+    column-gap: 0.875rem;
+    width: 40rem;
+    height: 3.75rem;
+    padding-left: 1.25rem;
+    border-radius: 0.5rem;
+    border: 1px solid #E26F6F;
+    background-color: #F5E9E9;
+`;
+
+const ErrorImg = styled.div`
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 50%;
+    background-color: #FFC8C8;
+`;
+
+const ErrorText = styled.div`
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: #000000;
 `;
 
 const CheckBox = styled.input`
@@ -74,31 +112,56 @@ type FormData = {
 };
 
 const Login = () => {
+    const dispatch = useAppDispatch();
     const { register, handleSubmit, formState: { errors }  } = useForm<FormData>();
+    const navigate = useNavigate();
+    const isError = useAppSelector(getIsErrorSelector);
+    const email = useAppSelector(getEmailSelector);
+    const isFetching = useAppSelector(getIsFetchingSelector);
 
     const onSubmit = handleSubmit(async (formData) => {
+        dispatch(setIsFetching(true));
+
         const response = await LoginService.post(formData);
-        console.log(response);
+
+        dispatch(setIsFetching(false));
+        dispatch(setEmail(formData.email));
+
+        if (response.code === 200) {
+            dispatch(setIsError(false));
+            navigate('/profile');
+        } else {
+            dispatch(setIsError(true));
+        }
     });
 
     return (
         <LoginContainer>
             <Form onSubmit={onSubmit}>
+                {
+                    isError && 
+                    (<ErrorDiv>
+                        <ErrorImg />
+                        <ErrorText>
+                            Пользователя { `${email}` } не существует
+                        </ErrorText>
+                    </ErrorDiv>)
+                }
                 <Label htmlFor="email" >Логин</Label>
                 <Input id="email" type="email" {...register('email', { required: true })} />
                 {
-                    errors.email && <Error>Обязательное поле</Error>
+                    errors.email && <ErrorSpan>Обязательное поле</ErrorSpan>
                 }
                 <Label htmlFor="password" >Пароль</Label>
                 <Input id="password" type="password" {...register('password', { required: true })} />
                 {
-                    errors.password && <Error>Обязательное поле</Error>
+                    errors.password && <ErrorSpan>Обязательное поле</ErrorSpan>
                 }
                 <Label htmlFor="remember">
                     <CheckBox id="remember" type="checkbox" {...register('remember')} />
                     Запомнить пароль
                 </Label>
-                <SubmitButton type="submit" />
+                <SubmitButton disabled={isFetching} type="submit" />
             </Form>
         </LoginContainer>
     );
