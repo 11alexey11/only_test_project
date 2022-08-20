@@ -8,6 +8,10 @@ import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { setEmail, setIsError, setIsFetching } from '../store/login/actions';
 import { getEmailSelector, getIsErrorSelector, getIsFetchingSelector } from '../store/login/selectors';
 
+interface IInput {
+    inputBorder?: boolean
+}
+
 const LoginContainer = styled.div`
     display: flex;
     flex: 1;
@@ -44,13 +48,12 @@ const Input = styled.input`
     }
 
     &:disabled {
-        background-color: #99A9FF;
+        background-color: #99A9FF;  
     }
 
-    // &:focus {
-    //     outline: none;
-    //     border: 1px solid #E26F6F;
-    // }
+    &:focus {
+        outline: ${(props: IInput) => props.inputBorder ? '1px solid #E26F6F' : '1px solid #000000'};
+    }
 `;
 
 const ErrorSpan = styled.span`
@@ -72,9 +75,14 @@ const ErrorDiv = styled.div`
 `;
 
 const ErrorImg = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 1.25rem;
     height: 1.25rem;
     border-radius: 50%;
+    font-size: 0.875rem;
+    color: #EE6565;
     background-color: #FFC8C8;
 `;
 
@@ -141,19 +149,17 @@ const Login = () => {
                 {
                     isError && 
                     (<ErrorDiv>
-                        <ErrorImg />
-                        <ErrorText>
-                            Пользователя { `${email}` } не существует
-                        </ErrorText>
+                        <ErrorImg>!</ErrorImg>
+                        <ErrorText>Пользователя { `${email}` } не существует</ErrorText>
                     </ErrorDiv>)
                 }
                 <Label htmlFor="email" >Логин</Label>
-                <Input id="email" type="email" {...register('email', { required: true })} />
+                <Input id="email" type="email" {...register('email', { required: true })} inputBorder={'email' in errors} />
                 {
                     errors.email && <ErrorSpan>Обязательное поле</ErrorSpan>
                 }
                 <Label htmlFor="password" >Пароль</Label>
-                <Input id="password" type="password" {...register('password', { required: true })} />
+                <Input id="password" type="password" {...register('password', { required: true })} inputBorder={'password' in errors} />
                 {
                     errors.password && <ErrorSpan>Обязательное поле</ErrorSpan>
                 }

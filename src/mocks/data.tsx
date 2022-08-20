@@ -10,5 +10,9 @@ export const data = [
     {
         email: "test3@test.com",
         password: "test"
+    },
+    {
+        email: "steve.jobs@example.com",
+        password: "password"
     }
 ];
