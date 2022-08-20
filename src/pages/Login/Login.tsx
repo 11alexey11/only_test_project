@@ -3,10 +3,10 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { LoginService } from '../api/LoginService';
-import { useAppDispatch, useAppSelector } from '../hooks/hooks';
-import { setEmail, setIsError, setIsFetching } from '../store/login/actions';
-import { getEmailSelector, getIsErrorSelector, getIsFetchingSelector } from '../store/login/selectors';
+import { LoginService } from '../../api/LoginService';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { setEmail, setIsError, setIsFetching } from '../../store/login/actions';
+import { getEmailSelector, getIsErrorSelector, getIsFetchingSelector } from '../../store/login/selectors';
 
 interface IInput {
     inputBorder?: boolean

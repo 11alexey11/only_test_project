@@ -2,9 +2,9 @@ import React from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { useAppDispatch, useAppSelector } from '../hooks/hooks';
-import { exitFromLogin } from '../store/login/actions';
-import { getEmailSelector } from '../store/login/selectors';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { exitFromLogin } from '../../store/login/actions';
+import { getEmailSelector } from '../../store/login/selectors';
 
 const ProfileContainer = styled.div`
     display: flex;

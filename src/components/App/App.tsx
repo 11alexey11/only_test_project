@@ -3,10 +3,10 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { Provider } from 'react-redux'
 import { createGlobalStyle } from 'styled-components';
 
-import { store } from '../store';
+import { store } from '../../store';
 import { Header } from '../Header';
-import { Login } from '../Login';
-import { Profile } from '../Profile';
+import { Login } from '../../pages/Login';
+import { Profile } from '../../pages/Profile';
  
 const GlobalStyle = createGlobalStyle`
     * {
